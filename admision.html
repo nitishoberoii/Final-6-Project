@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Admissions Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="admision.css">
+</head>
+
+<body>
+    <!-- Home Button -->
+    <div class="home-button">
+        <a href="home.html"><i class="fa fa-arrow-left"></i>Home</a>
+    </div>
+
+    <div class="container">
+        <h1>COLLEGE ADMISSIONS FORM</h1>
+        <p>Enter your admission information below</p>
+
+        <form id="admissionForm" action="payment.html">
+            <!-- Name -->
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" placeholder="First Name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="middleInitial">Middle Initial</label>
+                <input type="text" id="middleInitial" placeholder="Middle Initial">
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" placeholder="Last Name" required>
+            </div>
+
+            <!-- Birth Date -->
+            <div class="form-group">
+                <label for="birthDate">Birth Date</label>
+                <input type="date" id="birthDate" required>
+            </div>
+
+            <!-- Gender -->
+            <div class="form-group">
+                <label>Gender</label>
+                <div class="input-group">
+                    <input type="radio" id="male" name="gender" value="Male" required>
+                    <label for="male">Male</label>
+                    <input type="radio" id="female" name="gender" value="Female" required>
+                    <label for="female">Female</label>
+                </div>
+            </div>
+
+            <!-- Citizenship -->
+            <div class="form-group">
+                <label for="citizenship">Country of Citizenship</label>
+                <select id="citizenship" required>
+                    <option value="">Please Select</option>
+                    <option value="India">India</option>
+                    <option value="USA">USA</option>
+                    <option value="Canada">Canada</option>
+                    <option value="UK">UK</option>
+                    <option value="Australia">Australia</option>
+                </select>
+            </div>
+
+            <!-- Phone & Email -->
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" placeholder="(000) 000-0000" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="ex: myname@example.com" required>
+            </div>
+
+            <!-- Mailing Address -->
+            <div class="form-group">
+                <label for="streetAddress">Street Address</label>
+                <input type="text" id="streetAddress" placeholder="Street Address" required>
+            </div>
+
+            <div class="form-group">
+                <label for="streetAddress2">Street Address Line 2</label>
+                <input type="text" id="streetAddress2" placeholder="Street Address Line 2">
+            </div>
+
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" placeholder="City" required>
+            </div>
+
+            <div class="form-group">
+                <label for="state">State / Province</label>
+                <input type="text" id="state" placeholder="State / Province" required>
+            </div>
+
+            <div class="form-group">
+                <label for="postalCode">Postal / Zip Code</label>
+                <input type="text" id="postalCode" placeholder="Postal / Zip Code" required>
+            </div>
+
+            <!-- Emergency Contact -->
+            <div class="form-group">
+                <label for="emergencyFirstName">Emergency Contact First Name</label>
+                <input type="text" id="emergencyFirstName" placeholder="First Name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="emergencyLastName">Emergency Contact Last Name</label>
+                <input type="text" id="emergencyLastName" placeholder="Last Name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="relationship">Relationship</label>
+                <input type="text" id="relationship" placeholder="Relationship" required>
+            </div>
+
+            <div class="form-group">
+                <label for="emergencyEmail">Emergency Contact Email</label>
+                <input type="email" id="emergencyEmail" placeholder="example@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="emergencyPhone">Emergency Contact Phone</label>
+                <input type="tel" id="emergencyPhone" placeholder="(000) 000-0000" required>
+            </div>
+
+
+
+            <!-- Submit Button -->
+            <button type="submit" id="submitBtn">Submit</button>
+        </form>
+    </div>
+
+    <!-- Firebase Integration -->
+    <script type="module">
+        // Import Firebase SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, Timestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDnn2z8-DGU0cou3HZ6_p42XVdUEFUKPFE",
+            authDomain: "loginwebsite-6be2c.firebaseapp.com",
+            projectId: "loginwebsite-6be2c",
+            storageBucket: "loginwebsite-6be2c.appspot.com",
+            messagingSenderId: "5034966248",
+            appId: "1:5034966248:web:499f112e0775242964dd5d"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Form submission handler
+        document.getElementById('admissionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Disable submit button to prevent multiple clicks
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            try {
+                // Get form values
+                const formData = {
+                    firstName: document.getElementById('firstName').value,
+                    middleInitial: document.getElementById('middleInitial').value,
+                    lastName: document.getElementById('lastName').value,
+                    birthDate: Timestamp.fromDate(new Date(document.getElementById('birthDate').value)),
+                    gender: document.querySelector('input[name="gender"]:checked').value,
+                    citizenship: document.getElementById('citizenship').value,
+                    phone: document.getElementById('phone').value,
+                    email: document.getElementById('email').value,
+                    streetAddress: document.getElementById('streetAddress').value,
+                    streetAddress2: document.getElementById('streetAddress2').value,
+                    city: document.getElementById('city').value,
+                    state: document.getElementById('state').value,
+                    postalCode: document.getElementById('postalCode').value,
+                    emergencyFirstName: document.getElementById('emergencyFirstName').value,
+                    emergencyLastName: document.getElementById('emergencyLastName').value,
+                    relationship: document.getElementById('relationship').value,
+                    emergencyEmail: document.getElementById('emergencyEmail').value,
+                    emergencyPhone: document.getElementById('emergencyPhone').value,
+                    languages: document.querySelector('input[name="languages"]:checked').value
+                };
+
+                // Add document to Firestore
+                await addDoc(collection(db, "students"), formData);
+
+                alert("Form submitted successfully!");
+                document.getElementById('admissionForm').reset();
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                alert("Error submitting form. Please try again.");
+            }
+
+            // Re-enable button
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Submit";
+        });
+    </script>
+</body>
+
+</html>

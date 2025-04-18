@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="Stylesheet" href="login.css">
+</head>
+<body>
+    <!-- Firebase SDK -->
+<script type="module">
+    // Import Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } 
+    from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+  
+    // Firebase Config (Replace with your actual Firebase config)
+    const firebaseConfig = {
+  apiKey: "AIzaSyDnn2z8-DGU0cou3HZ6_p42XVdUEFUKPFE",
+  authDomain: "loginwebsite-6be2c.firebaseapp.com",
+  projectId: "loginwebsite-6be2c",
+  storageBucket: "loginwebsite-6be2c.firebasestorage.app",
+  messagingSenderId: "5034966248",
+  appId: "1:5034966248:web:499f112e0775242964dd5d"
+};
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+  
+    // Register Function
+    document.getElementById("registerBtn").addEventListener("click", function () {
+      let email = document.getElementById("registerEmail").value;
+      let password = document.getElementById("registerPassword").value;
+  
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("User Registered Successfully!");
+          console.log(userCredential.user);
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    });
+  
+    // Login Function
+    document.getElementById("loginBtn").addEventListener("click", function () {
+      let email = document.getElementById("loginEmail").value;
+      let password = document.getElementById("loginPassword").value;
+  
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("Login Successful!");
+          console.log(userCredential.user);
+          //Redirect to addmission form page
+          window.location.href = "admission.html";
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    });
+  
+    // Logout Function
+    document.getElementById("logoutBtn").addEventListener("click", function () {
+      signOut(auth)
+        .then(() => {
+          alert("Logged Out Successfully!");
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    });
+  </script>
+<Nav>
+    <ul>
+     <li onClick="showLogin()">Login</li>
+    <li onClick="showSignup()">Sign Up</li>
+    
+   
+   
+     </ul>
+    </Nav>
+    <div class="container">
+     <div class="main-pannel">
+    <div class="Section login">
+        <div class="Content">
+        <div class="heading">
+         <img src = "gallery/usericon.jpg" height="50px"/>
+        <h2>Student Login</h2>
+            <p>Login with your Email and password if have already Registered.</p>
+                        
+        </div>
+         <form>
+        <div class="form-group">
+        <label>Email</label>
+    <input type="email" id="loginEmail" placeholder="Enter Email">
+
+         </div>
+        <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter Password">
+         <a class="psw">Forgot Password?</a>
+        </div>
+         <div class="form-group">
+         <button type="button" id="loginBtn">Login</button>
+        </div>
+         <span class="signup">Don't have an account ? Click here to sign up</span>
+        </form>
+        </div>
+        </div>
+        <div class="Section register">
+         <div class="content">
+        <div class="heading">
+        <h2>Student Registration</h2>
+        <p>Let's get you all set up so you can verify your personal account and start filling your Admission Form. </p> 
+        </div> 
+        <form>
+        
+         <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="registerEmail" placeholder="Enter Email...">
+        </div>
+        
+        <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="registerPassword" placeholder="Enter Password...">
+        </div>
+        <div class="form-group">
+        
+        <button type="button" id="registerBtn">Register</button>
+        </div>
+        </form>         
+        </div>
+        </div>
+        </div>
+        <script>
+            let panel = document.querySelector(".main-pannel");
+            let thankyou = document.querySelector(".thankyou")
+            function showSignup(){
+                panel.style.transform = "translateZ(-100px) rotatey(-90deg)";
+                panel.classList.remove("adjustheight");
+            }
+            function showLogin(){
+                panel.style.transform = "translateZ(-100px)";
+                panel.classList.remove("adjustheight");
+            }
+        </script>
+        </body>
+        </html>
